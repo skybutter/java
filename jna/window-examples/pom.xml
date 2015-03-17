@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.weboctave.jna</groupId>
+  <artifactId>window-examples</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Java Native Access Window Examples</name>
+  <description>Java Native Access Window Examples</description>
+  <dependencies>
+  	<!-- JNA 4.0.0 and 4.1.0 didn't work, corrupted jar in maven repository -->
+     <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>platform</artifactId>
+        <version>3.5.2</version>
+     </dependency>
+  </dependencies>
+    <developers>
+        <developer>
+            <id>skybutter</id>
+            <name>skybutter</name>
+            <email>github@weboctave.com</email>
+            <timezone>-8</timezone>
+        </developer>
+    </developers>
+</project>
