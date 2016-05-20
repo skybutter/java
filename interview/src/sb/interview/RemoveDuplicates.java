@@ -16,8 +16,15 @@ import java.util.Set;
 public class RemoveDuplicates {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		int[] dups = new int[]{ 1, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 11, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20 };
+//		int[] dups = { 1, 2, 2, 3, 3};
+		System.out.println("array length=" + dups.length);
+		int[] noDups = removeDuplicates(dups);
+		convertArrayToString(noDups);
+		dups = new int[]{ 1, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 11, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20 };
+		convertArrayToString(dups);
+		int[] myNoDups = myRemoveDuplicates(dups);
+		convertArrayToString(myNoDups);
 	}
 
 	// This method remove duplicates in the list.  
@@ -71,4 +78,64 @@ public class RemoveDuplicates {
 		System.out.println("Remove duplicate return new array: " + (end-start));		
 		return B;
 	}
- }
+	
+	private static void convertArrayToString(int[] a) {
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i < a.length; i++) {
+			sb.append(a[i] + ",");
+		}
+		String result = sb.substring(0, sb.length()-1);
+		System.out.println("{" + result + "}");
+	}
+	private static void convertArrayToString(Integer[] a) {
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i < a.length; i++) {
+			sb.append(a[i] + ",");
+		}
+		String result = sb.substring(0, sb.length()-1);
+		System.out.println("{" + result + "}");
+	}
+	
+	public static Integer[] toObject(int[] intArray) {
+
+		Integer[] result = new Integer[intArray.length];
+		for (int i = 0; i < intArray.length; i++) {
+			result[i] = Integer.valueOf(intArray[i]);
+		}
+		return result;
+	}
+	// Assume sorted array
+	public static int[] myRemoveDuplicates(int[] a) {
+		long start = System.currentTimeMillis();
+		if (a.length<2) {
+			return a;
+		}
+		int i=1;
+		int j=0;
+		while (i<a.length) {
+			if (a[i] == a[j]) {
+				// found duplicate
+				i++;
+			} else {
+				j++;
+				a[j] = a[i];
+				i++;
+			}
+		}
+		int[] noDups = Arrays.copyOf(a, j+1);
+		long end = System.currentTimeMillis();
+		System.out.println("My Remove duplicate return new array: " + (end-start));		
+		return noDups;
+	}
+
+	private static List<Integer> toList(int[] a) {
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i=0; i < a.length; i++) {
+			list.add(a[i]);
+		}
+		HashSet set = new HashSet();
+		list.addAll(set);
+		return list;
+	}
+
+}
