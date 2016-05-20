@@ -6,7 +6,7 @@ public class YpPhoneQuestion {
  
 	// Given a List<T> remove duplicates	
 	public static <T> List<T> removeDuplicates(List<T> list) {
-		return RemoveDuplicates.removeDuplicates(list);
+		return RemoveDuplicates.removeDuplicates1(list);
 	}
 
 /*

@@ -9,22 +9,6 @@ import java.util.regex.Pattern;
 
 public class ReverseString {
 
-	public static void main(String[] args) {
-		String sentence = "hello world alan wong";
-		String output1 = reverseWord1(sentence);
-		String output2 = reverseWord2(sentence);
-		String output3 = reverseWord3(sentence);
-		String output4 = reverseWord4(sentence);
-		String output5 = reverseWord5(sentence);
-		String output6 = reverseWord6(sentence);
-		System.out.println("reverseWord1=" + output1);
-		System.out.println("reverseWord2=" + output2);
-		System.out.println("reverseWord3=" + output3);
-		System.out.println("reverseWord4=" + output4);
-		System.out.println("reverseWord5=" + output5);
-		System.out.println("reverseWord6=" + output6);
-	}
-
 	/*
 	 * given a string input, reverse
 		input: "hello"
@@ -147,5 +131,21 @@ public class ReverseString {
 	    	sb.append(words[i] + delimiter);
 	    }
 	    return sb.substring(0, sb.length()-1);
+	}
+	
+	public static void main(String[] args) {
+		String sentence = "hello world alan wong";
+		String output1 = reverseWord1(sentence);
+		String output2 = reverseWord2(sentence);
+		String output3 = reverseWord3(sentence);
+		String output4 = reverseWord4(sentence);
+		String output5 = reverseWord5(sentence);
+		String output6 = reverseWord6(sentence);
+		System.out.println("reverseWord1=" + output1);
+		System.out.println("reverseWord2=" + output2);
+		System.out.println("reverseWord3=" + output3);
+		System.out.println("reverseWord4=" + output4);
+		System.out.println("reverseWord5=" + output5);
+		System.out.println("reverseWord6=" + output6);
 	}
 }
