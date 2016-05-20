@@ -12,8 +12,6 @@ import java.util.List;
 public class PrimeNumber {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 		int max = 40;
 		List<Integer> output1 = generatePrime1(max);
 		System.out.println("generatePrime1=" + output1);
@@ -54,21 +52,21 @@ public class PrimeNumber {
 	}
     /**
      * 
-     * @param upperLimit
-     * @return a list of prime numbers from 2 to upperLimit inclusive
+     * @param max
+     * @return a list of prime numbers from 2 to max inclusive
      * @throws IllegalArgumentException if upperLimit is less than 0 
      */
-    public static List<Integer> generatePrime2(int upperLimit) {
+    public static List<Integer> generatePrime2(int max) {
 
-        if(upperLimit < 0) 
+        if(max < 0) 
             throw new IllegalArgumentException("Negative size");
 
         // at first all are numbers (0<=i<=n) not composite
-        boolean[] isComposite = new boolean[upperLimit + 1]; 
-        for (int i = 2; i * i <= upperLimit; i++) {
+        boolean[] isComposite = new boolean[max + 1]; 
+        for (int i = 2; i * i <= max; i++) {
             if (!isComposite [i]) {
                 // populate all multiples as composite numbers
-                for (int j = i; i * j <= upperLimit; j++) {
+                for (int j = i; i * j <= max; j++) {
                     isComposite [i*j] = true;
                 }
             }
