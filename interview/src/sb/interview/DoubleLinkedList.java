@@ -1,7 +1,5 @@
 package sb.interview;
 
-import java.util.LinkedList;
-
 public class DoubleLinkedList<T> {
 
 	private Node<T> first = null;
