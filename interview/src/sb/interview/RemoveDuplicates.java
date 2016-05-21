@@ -16,28 +16,61 @@ import java.util.Set;
 public class RemoveDuplicates {
 
 	public static void main(String[] args) {
-		int[] dups = new int[]{ 1, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 11, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20 };
-//		int[] dups = { 1, 2, 2, 3, 3};
-		System.out.println("array length=" + dups.length);
-		int[] noDups = removeDuplicates(dups);
-		convertArrayToString(noDups);
-		dups = new int[]{ 1, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 11, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20 };
-		convertArrayToString(dups);
-		int[] myNoDups = myRemoveDuplicates(dups);
-		convertArrayToString(myNoDups);
+		Integer[] a = new Integer[] {5,3,6,4,9,1,3,2,4,5,8,7,1,4,0};
+		List<Integer> input = Arrays.asList(a);
+		System.out.println("input: " + input);
+		List<Integer> output = removeDuplicates1(input);
+		System.out.println("removeDuplicates1: " + output);
+		// Arrays.asList() return a list that does not support the remove(int idx) method
+		//input = Arrays.asList(a);
+		input = convertToList(a);
+		output = removeDuplicates2(input);
+		System.out.println("removeDuplicates2: " + output);
 	}
 
 	// This method remove duplicates in the list.  
 	// List can hold any Java Object
 	// Using Java HashSet and create new List
-	//  Not the most optimized, but fastest to code
-	public static <T> List<T> removeDuplicates(List<T> list) {
+	// Use more memory as copying List to Set and copy to new List
+	//  Not the most optimized for speed, but fastest to code
+	public static <T> List<T> removeDuplicates1(List<T> list) {
 		// boundary condition check is missing
+		if (list.size() < 2)
+			return list;	 
 	    HashSet<T> set = new HashSet<T>(list);
 	    List<T> result = new ArrayList<T>(set);
 	    return result;
 	}
+	// This method remove duplicates in the list.
+	// List can hold any Java Object, but the Object must implement Comparable interface for Collections.sort() to work
+	// Use less memory, the same List is modified in place
+	public static <T extends Comparable<T>> List<T> removeDuplicates2(List<T> list) {
+		long start = System.currentTimeMillis();
+		if (list.size() < 2)
+			return list;	 
+		int i = 0;
+		// Using Java built-in merge sort to sort the array. 
+		Collections.sort(list);
+		while (i < list.size()-1) {
+			int j=i + 1;
+			if (list.get(i).equals(list.get(j))) {
+				list.remove(j);
+			}
+			i++;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("Remove duplicate return new array: " + (end-start));		
+		return list;
+	}
 	
+	// Arrays.asList() return a List not supporting add/remove(), which change size
+	private static <T> List<T> convertToList(T[] array) {
+		ArrayList<T> list = new ArrayList<T>(array.length);
+		for (int i=0; i < array.length; i++) {
+			list.add(array[i]);
+		}
+		return list;
+	}
 	// This method remove duplicates in the Integer[]
 	// This is similar to above but using arrays.
 	// Using new HashSet(List) and set.toArray() instead of loop over list
@@ -78,64 +111,4 @@ public class RemoveDuplicates {
 		System.out.println("Remove duplicate return new array: " + (end-start));		
 		return B;
 	}
-	
-	private static void convertArrayToString(int[] a) {
-		StringBuilder sb = new StringBuilder();
-		for (int i=0; i < a.length; i++) {
-			sb.append(a[i] + ",");
-		}
-		String result = sb.substring(0, sb.length()-1);
-		System.out.println("{" + result + "}");
-	}
-	private static void convertArrayToString(Integer[] a) {
-		StringBuilder sb = new StringBuilder();
-		for (int i=0; i < a.length; i++) {
-			sb.append(a[i] + ",");
-		}
-		String result = sb.substring(0, sb.length()-1);
-		System.out.println("{" + result + "}");
-	}
-	
-	public static Integer[] toObject(int[] intArray) {
-
-		Integer[] result = new Integer[intArray.length];
-		for (int i = 0; i < intArray.length; i++) {
-			result[i] = Integer.valueOf(intArray[i]);
-		}
-		return result;
-	}
-	// Assume sorted array
-	public static int[] myRemoveDuplicates(int[] a) {
-		long start = System.currentTimeMillis();
-		if (a.length<2) {
-			return a;
-		}
-		int i=1;
-		int j=0;
-		while (i<a.length) {
-			if (a[i] == a[j]) {
-				// found duplicate
-				i++;
-			} else {
-				j++;
-				a[j] = a[i];
-				i++;
-			}
-		}
-		int[] noDups = Arrays.copyOf(a, j+1);
-		long end = System.currentTimeMillis();
-		System.out.println("My Remove duplicate return new array: " + (end-start));		
-		return noDups;
-	}
-
-	private static List<Integer> toList(int[] a) {
-		List<Integer> list = new ArrayList<Integer>();
-		for (int i=0; i < a.length; i++) {
-			list.add(a[i]);
-		}
-		HashSet set = new HashSet();
-		list.addAll(set);
-		return list;
-	}
-
-}
+ }

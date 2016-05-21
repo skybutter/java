@@ -1,16 +1,12 @@
 package sb.interview;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class YpPhoneQuestion {
  
 	// Given a List<T> remove duplicates	
 	public static <T> List<T> removeDuplicates(List<T> list) {
-		return RemoveDuplicates.removeDuplicates(list);
+		return RemoveDuplicates.removeDuplicates1(list);
 	}
 
 /*
@@ -19,12 +15,7 @@ public class YpPhoneQuestion {
 	output:  "olleh"
 */
 	public String reverse(String s) {
-	    StringBuilder sb = new StringBuilder();
-	    char[] chArray = s.toCharArray();
-	    for (int i=chArray.length-1; i >= 0; i--) {
-	        sb.append(chArray[i]);
-	    }
-	    return sb.toString();
+		return ReverseString.reverse1(s);
 	}
 
 /*
@@ -33,19 +24,7 @@ public class YpPhoneQuestion {
 	output: "wong alan world hello"
  */
 	public String reverseWord(String s) {
-	    String delimiter = " ";
-	    StringTokenizer st = new StringTokenizer(s, delimiter);
-	    List<String> list = new ArrayList<String>();
-	    while (st.hasMoreElements()) {
-	        String word = st.nextToken();
-	        list.add(word);		// could use a Stack here
-	    }
-	    StringBuilder sb = new StringBuilder();    
-	    for (int i=list.size()-1; i >= 0; i++) {
-	        sb.append(list + delimiter);
-	    }
-	    String result = sb.substring(0, sb.length()-1);
-	    return result;
+		return ReverseString.reverseWord1(s);
 	}
 
 /*
