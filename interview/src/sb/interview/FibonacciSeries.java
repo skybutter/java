@@ -14,11 +14,18 @@ public class FibonacciSeries {
 		int max = 12;
 		List<Integer> list1 = getFibonacciList1(max);
 		System.out.println("Fibonacci Recursion (" + max + ")=" + list1);
+		System.out.println("counter=" + counter);
+		counter = 0;
 		List<Integer> list2 = getFibonacciList2(max);
 		System.out.println("Fibonacci Loop (" + max + ")=" + list2);
+		System.out.println("counter=" + counter);
+		counter = 0;
 	}
-		
+
+	private static int counter = 0;
+	// Tail recursion
 	public static int fibonacciRecursion(int num) {
+		counter++;
 		if (num < 0)
 			throw new IllegalArgumentException("input is less than 0.");
 		if (num==0 || num==1)
@@ -47,6 +54,7 @@ public class FibonacciSeries {
 			fn = f1 + f2;
 			f1 = f2;
 			f2 = fn;
+			counter++;
 		}
 		return fn;
 	}
@@ -59,5 +67,4 @@ public class FibonacciSeries {
 		}
 		return list;
 	}
-
 }
