@@ -31,6 +31,12 @@ public class RotateArray {
 		System.out.print("rotated 3: ");
 		int[] result3 = rotateOneByOne(array, rotateBy);
 		printArray(result3);
+		System.out.print("original: ");
+		printArray(array);
+		System.out.print("rotated 4: ");
+		int[] result4 = rotateKtime(array, rotateBy);
+		printArray(result4);
+		
 	}
 
 	// Rotate the array by k element using a LinkedList
@@ -70,6 +76,8 @@ public class RotateArray {
 	}
 	// Rotate the array by k element in place
 	//  Original array is modified.
+	//  Shift the element one by one, over k times.
+	//  Not very efficient in speed.
 	//  Use less memory
 	private static int[] rotateOneByOne(int[] array, int k) {
 		for (int j=0; j < k; j++) {
@@ -79,6 +87,25 @@ public class RotateArray {
 			}
 			array[array.length-1]=temp;
 		}
+		return array;
+	}
+	// Rotate the array by k element in place
+	//  Original array is modified.
+	//  Divide the array in groups.  Each group has k elements.
+	//  Shift the element by k
+	// Juggling algorithm.
+	// see explanation at http://www.geeksforgeeks.org/array-rotation/
+	private static int[] rotateKtime(int[] array, int k) {
+		int last = array[array.length-1];
+		for (int i=k-1; i >= 0; i--) {
+			int temp = array[i];
+			for (int j=i; (j+k) < array.length; j+=k) {
+				array[j] = array[j+k];
+			}
+			int l = array.length - k + i;
+			array[l] = temp;
+		}
+		array[array.length-k-1] = last;
 		return array;
 	}
 	
