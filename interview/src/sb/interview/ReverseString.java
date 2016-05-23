@@ -35,8 +35,15 @@ public class ReverseString {
 		input: "hello world alan wong"
 		output: "wong alan world hello"
 	 */
+	// reverseWord1-6 is similar, just different approach to split the word
+	//  use StringBuilder to store string
+	//  use List, String[] , etc...
+	//  space: O(n)
+	// reverseWord7 use different approach, reverse in place
 	// Using StringTokenizer to split the words
-	// Using ArrayList to store the reversed sentence, then loop in descending order	
+	// Using ArrayList to store the reversed sentence, then loop in descending order
+	//  to put in StringBuilder
+	// space: O(2n) = O(n) 
 	public static String reverseWord1(String s) {
 	    String delimiter = " ";
 	    StringTokenizer st = new StringTokenizer(s, delimiter);
@@ -54,7 +61,8 @@ public class ReverseString {
 	}
 	// Inserting word into StringBuilder in the beginning,
 	//  no need to use another List/Stack as temp storage
-	//  Use less memory	
+	//  Use less memory than previous method, just one StringBuilder
+	//  space: O(n)
 	public static String reverseWord2(String s) {
 	    String delimiter = " ";
 	    StringTokenizer st = new StringTokenizer(s, delimiter);
@@ -67,6 +75,7 @@ public class ReverseString {
 	    return result;
 	}
 	// Use a ArrayDeque as Stack, javadoc said ArrayDeque is better than Stack
+	// space: O(n)
 	public static String reverseWord3(String s) {
 	    String delimiter = " ";
 	    StringTokenizer st = new StringTokenizer(s, delimiter);
@@ -84,6 +93,7 @@ public class ReverseString {
 	}
 	// Use String.split() to split words into array
 	// Loop over array backwards
+	// space: O(n)
 	public static String reverseWord4(String s) {
 	    String delimiter = " ";
 	    String[] words = s.split(delimiter);
@@ -96,6 +106,7 @@ public class ReverseString {
 	// Using String.indexOf() to split the sentence into words manually
 	//  indexOf() is the faster than StringTokenizer and split()
 	// Use a LinkedList as Stack
+	// space: O(n)
 	public static String reverseWord5(String s) {
 	    String delimiter = " ";
 	    int current = 0;
@@ -122,6 +133,7 @@ public class ReverseString {
 	    return result;
 	}
 	// Using Pattern to split the sentence into words
+	// space: O(n)
 	public static String reverseWord6(String s) {
 	    String delimiter = " ";
 	    Pattern spaceP = Pattern.compile(delimiter);
@@ -133,6 +145,43 @@ public class ReverseString {
 	    return sb.substring(0, sb.length()-1);
 	}
 	
+	// Use Reverse array
+	// Least memory use
+	// space: O(1) if get character array
+	// see explanation: http://www.programcreek.com/2014/05/leetcode-reverse-words-in-a-string-ii-java/
+	// Ex: 
+	//  input is: The sky is blue
+	//  reverse words: ehT yks si blue
+	//  Note: last word is not reverse as there is no space at the end
+	//  reverse last word: ehT yks si eulb
+	//  reverse the entire string: blue is sky The
+	public static String reverseWord7(String s) {
+		if (s==null || s.length()==0) 
+			throw new IllegalArgumentException("Invalid string");
+		char[] a = s.toCharArray();
+		int space = 0;
+		for (int i=0; i < a.length; i++) {
+			if (a[i] == ' ') {
+				reverse(a, space, i-1);
+				space = i+1;
+			}
+		}
+		reverse(a, space, a.length-1);
+		reverse(a, 0, a.length-1);
+		return String.valueOf(a);
+	}
+	private static void reverse(char[] a, int start, int end) {
+		if (a==null)
+			throw new IllegalArgumentException("Invalid array");
+		while (start < end) {
+			char temp = a[start];
+			a[start] = a[end];
+			a[end] = temp;
+			start++;
+			end--;
+		}
+	}
+	
 	public static void main(String[] args) {
 		String sentence = "hello world alan wong";
 		String output1 = reverseWord1(sentence);
@@ -141,11 +190,13 @@ public class ReverseString {
 		String output4 = reverseWord4(sentence);
 		String output5 = reverseWord5(sentence);
 		String output6 = reverseWord6(sentence);
+		String output7 = reverseWord7(sentence);
 		System.out.println("reverseWord1=" + output1);
 		System.out.println("reverseWord2=" + output2);
 		System.out.println("reverseWord3=" + output3);
 		System.out.println("reverseWord4=" + output4);
 		System.out.println("reverseWord5=" + output5);
 		System.out.println("reverseWord6=" + output6);
+		System.out.println("reverseWord7=" + output7);
 	}
 }

@@ -36,7 +36,11 @@ public class RotateArray {
 		System.out.print("rotated 4: ");
 		int[] result4 = rotateKtime(array, rotateBy);
 		printArray(result4);
-		
+		System.out.print("original: ");
+		printArray(array);
+		System.out.print("rotated 5: ");
+		int[] result5 = rotateUseReversal(array, rotateBy);
+		printArray(result5);		
 	}
 
 	// Rotate the array by k element using a LinkedList
@@ -58,7 +62,11 @@ public class RotateArray {
 	}
 	// Rotate the array by k element using temp array
 	//  Original array modified
+	//  space: O(k)
+	//  time:  O(n)
 	private static int[] rotateUseArray(int[] array, int k) {
+		if (array==null || k > array.length)
+			throw new IllegalArgumentException("Invalid array or k");
 		int[] temp = new int[k];
 		for (int i=0; i < k; i++) {
 			temp[i] = array[i];
@@ -76,10 +84,15 @@ public class RotateArray {
 	}
 	// Rotate the array by k element in place
 	//  Original array is modified.
-	//  Shift the element one by one, over k times.
+	//  Shift the element one by one, over k times.  
+	//  Like Bubble Sort
 	//  Not very efficient in speed.
 	//  Use less memory
+	//  space : O(1)
+	//  time : O(n*k)
 	private static int[] rotateOneByOne(int[] array, int k) {
+		if (array==null || k > array.length)
+			throw new IllegalArgumentException("Invalid array or k");
 		for (int j=0; j < k; j++) {
 			int temp = array[0];
 			for (int i=0; i < array.length-1; i++) {
@@ -96,6 +109,8 @@ public class RotateArray {
 	// Juggling algorithm.
 	// see explanation at http://www.geeksforgeeks.org/array-rotation/
 	private static int[] rotateKtime(int[] array, int k) {
+		if (array==null || k > array.length)
+			throw new IllegalArgumentException("Invalid array or k");
 		int last = array[array.length-1];
 		for (int i=k-1; i >= 0; i--) {
 			int temp = array[i];
@@ -107,6 +122,46 @@ public class RotateArray {
 		}
 		array[array.length-k-1] = last;
 		return array;
+	}
+	// Rotate the array by k element in place using Reversal
+	//  Original array is modified.
+	//  Divide the array into two group.
+	//  One group is the size of k (start from the 0).
+	//  The other group is the rest of the array.
+	//  Ex: k=2
+	//     array: {1,2,3,4,5,6]
+	//     group 1: {1,2}
+	//     group 2: {3,4,5,6}
+	//     Reverse them: {6,5,4,3} and {2,1}
+	//     Put them together: {2,1,6,5,4,3}
+	//		Reverse the array: {3,4,5,6,1,2}
+	//  Implementation is somewhat simple.
+	//  space: O(1)
+	//  time: O(n)
+	// See http://www.programcreek.com/2015/03/rotate-array-in-java/
+	private static int[] rotateUseReversal(int[] array, int k) {
+		if (array==null || k > array.length)
+			throw new IllegalArgumentException("Invalid array or k");
+		// Reverse for first group of k elements in the front
+		reverse(array, 0, k-1);
+		reverse(array, k, array.length-1);
+		reverse(array, 0, array.length-1);
+		return array;
+	}
+	// This method is used by the above method to reverse the array
+	private static int[] reverse(int[] a, int start, int end) {
+		if (a==null)
+			throw new IllegalArgumentException("Invalid array");
+		int left = start;
+		int right = end;
+		while (left < right) {
+			int temp = a[left];
+			a[left] = a[right];
+			a[right] = temp;
+			left++;
+			right--;
+		}
+		return a;
 	}
 	
 	private static LinkedList<Integer> convertArrayToList(int[] array) {
