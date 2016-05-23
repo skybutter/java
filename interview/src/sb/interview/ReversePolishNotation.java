@@ -34,17 +34,17 @@ public class ReversePolishNotation {
 				// Perform operation on stack
 				int a = Integer.valueOf(stack.pop());
 				int b = Integer.valueOf(stack.pop());
-				switch (s[i]) {
-				case "+":
+				switch (s[i].charAt(0)) {
+				case '+':
 					stack.push(String.valueOf(b+a));
 					break;
-				case "-":
+				case '-':
 					stack.push(String.valueOf(b-a));
 					break;
-				case "*":
+				case '*':
 					stack.push(String.valueOf(b*a));
 					break;
-				case "/":
+				case '/':
 					stack.push(String.valueOf(b/a));
 					break;
 				}
