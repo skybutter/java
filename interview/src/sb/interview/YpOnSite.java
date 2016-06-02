@@ -29,8 +29,7 @@ public class YpOnSite {
 /* 
  * Ming Question:
  * Implement a function to find the n element of Fibonacci series
- * Recursive
- * And find a more efficient way to do it.
+ * Recursives
  */
 	public static int fibRecursive(int n) {
 		if (n==0 || n==1) {
@@ -65,18 +64,23 @@ public class YpOnSite {
  * Given a very large file with large number of int.  Each line is int.
  * Get the largest 100 numbers.
  * Hint: the file is large that it won't fit the memory.
+ * 
+ * For easier testing in only one file, I pass in int[]
+ *  
  */
-	public Integer[] getLargest(int n) {
+	public static Integer[] getLargest(int n, int[] arr) {
 		Integer[] largest = new Integer[n];
 		BufferedReader reader = null;
 		FileReader file = null;
 		try {
-			file = new FileReader("LargeIntFile.txt");
-			reader = new BufferedReader(file);
-			String s = reader.readLine();
+//			file = new FileReader("LargeIntFile.txt");
+//			reader = new BufferedReader(file);
+//			String s = reader.readLine();
 			TreeSet<Integer> tree = new TreeSet<Integer>();
-			while (s!=null) {
-				int num = Integer.parseInt(s);
+//			while (s!=null) {
+			for (int k=0; k < arr.length; k++) {
+				//int num = Integer.parseInt(s);
+				int num = arr[k];
 				if (tree.size() < n) {
 					tree.add(num);
 				} else {
@@ -86,7 +90,7 @@ public class YpOnSite {
 						tree.add(num);
 					}
 				}
-				s = reader.readLine();
+				//s = reader.readLine();
 			}
 			largest = tree.toArray(largest);
 		} catch (Exception e) {
@@ -97,6 +101,72 @@ public class YpOnSite {
 		return largest;
 	}
 	
+	/*
+	 * Cheng question:
+	 * Given an array of int and a target.  Write a function to return true if any 3 or more elements add up to the target.
+	 * Ex:
+	 * 	Given array {1,2,3,4,5}, target is 6.  function return true.
+	 *  Given array {2,5,9,18}, target is 6.  function return false.
+	 */
+	public static boolean findTarget(int[] arr, int target) {
+		boolean result = false;
+		// This list store all the combination that is less the target
+		Collection<Integer> list = new ArrayList<>();
+		for (int i=0; i < arr.length; i++) {
+			if (arr[i] < target) {
+				Collection<Integer> tempList = new ArrayList<>();
+				Iterator<Integer> it = list.iterator();
+				while (it.hasNext()) {
+					int j = it.next();
+					int sum = j + arr[i];
+					if (sum == target)
+						return true;
+					else if (sum < target)
+						tempList.add(sum);
+				}
+				list.add(arr[i]);
+				list.addAll(tempList);
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * Cheng Question:
+	 * For embedded system, you only have a Stack and no other data structure.
+	 * Implement a Queue using Stack only.
+	 * No array.  Just a Stack.
+	 * Implement the class, with push and pop methods.
+	 * 
+	 */
+	public class Queue {
+		private Stack stack = new Stack();	// storing data as it is push on the stack
+		private Stack queue = new Stack();	// storing data in reverse order
+		
+		public void push(Object o) {
+			stack.push(o);
+		}
+		public Object pop() {
+			Object o = null;
+			if (queue.isEmpty()) {
+				while (!stack.isEmpty()) {
+					queue.push(stack.pop());
+				}
+				o = queue.pop();
+			} else {
+				o = queue.pop();
+			}
+			return o;
+		}
+	}
+	
+	public static void testGetlargest() {
+		int numLarge = 15;
+		int numInArray = numLarge * 20;
+		int[] arr = generateRandomIntArray(numInArray);
+		Integer[] largest = getLargest(numLarge, arr);
+		System.out.println("Largest " + numLarge + " element: " + Arrays.toString(largest));
+	}
 	public void testSuit() {
 		// David Question - Test
 		Suit spade = Suit.SPADE;
@@ -128,7 +198,7 @@ public class YpOnSite {
 
 	}
 	
-	public int[] generateRandomIntArray(int size) {
+	public static int[] generateRandomIntArray(int size) {
 		int[] array = new int[size];
 		for (int i=0; i < size; i++) {
 			array[i] = (int) (Math.random()*100 + Math.random()*10);
@@ -141,6 +211,7 @@ public class YpOnSite {
 		yp.testQueue();
 		testFib();
 		testFindTarget();
+		testGetlargest();
 	}
 	
 	private static void testFib() {
@@ -173,64 +244,6 @@ public class YpOnSite {
 		System.out.println("Found Target in Array=" + findTarget(array, target));
 	}
 	
-	/*
-	 * Chen question:
-	 * Given an array of int and a target.  Write a function to return true if any 3 or more elements add up to the target.
-	 * Ex:
-	 * 	Given array {1,2,3,4,5}, target is 6.  function return true.
-	 *  Given array {2,5,9,18}, target is 6.  function return false.
-	 */
-	public static boolean findTarget(int[] arr, int target) {
-		boolean result = false;
-		// This list store all the combination that is less the target
-		Collection<Integer> list = new ArrayList<>();
-		for (int i=0; i < arr.length; i++) {
-			if (arr[i] < target) {
-				Collection<Integer> tempList = new ArrayList<>();
-				Iterator<Integer> it = list.iterator();
-				while (it.hasNext()) {
-					int j = it.next();
-					int sum = j + arr[i];
-					if (sum == target)
-						return true;
-					else if (sum < target)
-						tempList.add(sum);
-				}
-				list.add(arr[i]);
-				list.addAll(tempList);
-			}
-		}
-		return result;
-	}
-
-	/*
-	 * Chen Question:
-	 * For embedded system, you only have a Stack and no other data structure.
-	 * Implement a Queue using Stack only.
-	 * No array.  Just a Stack.
-	 * Implement the class, with push and pop methods.
-	 * 
-	 */
-	public class Queue {
-		private Stack stack = new Stack();	// storing data as it is push on the stack
-		private Stack queue = new Stack();	// storing data in reverse order
-		
-		public void push(Object o) {
-			stack.push(o);
-		}
-		public Object pop() {
-			Object o = null;
-			if (queue.isEmpty()) {
-				while (!stack.isEmpty()) {
-					queue.push(stack.pop());
-				}
-				o = queue.pop();
-			} else {
-				o = queue.pop();
-			}
-			return o;
-		}
-	}
 }
 /*
  * David Question:
